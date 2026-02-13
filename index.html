@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Kuttachii</title>
+    <style>
+        :root { --primary: #ff4d6d; --secondary: #ffb3c1; --bg: #fff0f3; --dark: #590d22; }
+        body, html { margin: 0; padding: 0; min-height: 100%; background-color: var(--bg); font-family: 'Georgia', serif; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* SCREEN 1: THE ENVELOPE */
+        #cover-screen { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: var(--primary); color: white; z-index: 100;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 1s ease-in-out;
+        }
+
+        .open-btn { background: white; color: var(--primary); border: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; font-weight: bold; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+        /* SCREEN 2: THE LETTER CONTENT */
+        #letter-container { display: none; padding: 40px 20px; text-align: center; opacity: 0; transition: opacity 0.5s; }
+
+        .choice-box { background: white; padding: 40px; border-radius: 20px; max-width: 500px; margin: 20px auto; border: 2px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .btn-wrapper { position: relative; width: 100%; height: 100px; margin-top: 20px; }
+        .choice-btn { padding: 12px 30px; font-size: 1.1rem; border-radius: 10px; border: none; cursor: pointer; position: absolute; font-weight: bold; }
+        #yesBtn { background: var(--primary); color: white; left: 50%; transform: translateX(-110%); }
+        #noBtn { background: #555; color: white; left: 50%; transform: translateX(10%); transition: 0.1s; z-index: 1001; }
+
+        /* FINAL REVEAL */
+        #final-reveal { display: none; margin-top: 30px; animation: fadeIn 2s; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 800px; margin: 30px auto; }
+        .photo-card { background: white; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transform: rotate(-2deg); transition: 0.3s; }
+        .photo-card:hover { transform: rotate(0deg) scale(1.02); }
+        .photo-card img { width: 100%; height: 350px; object-fit: cover; border-radius: 2px; }
+        .message-box { background: white; padding: 40px; border-radius: 20px; max-width: 600px; margin: 40px auto; border: 2px dashed var(--secondary); line-height: 1.8; }
+
+        /* HEART RAIN */
+        .heart-particle { position: fixed; top: -10%; font-size: 25px; z-index: 1000; pointer-events: none; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hide-up { transform: translateY(-100%); }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/jdsnbe.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="cover-screen">
+        <div style="font-size: 80px; animation: bounce 2s infinite;">💌</div>
+        <h1>This for you senaa...</h1>
+        <button class="open-btn" onclick="openEnvelope()">Open Letter</button>
+    </div>
+
+    <div id="letter-container">
+        <div id="question-area">
+            <div class="choice-box">
+                <h2 style="color: var(--primary);">Our 1st Valentine's Day</h2>
+                <p>This will last for our whole life, Bubuu. Do you want to see what's inside?</p>
+                <div class="btn-wrapper">
+                    <button id="yesBtn" class="choice-btn" onclick="revealAll()">Yes! ❤️</button>
+                    <button id="noBtn" class="choice-btn" onmouseover="moveNo()">No</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="final-reveal">
+            <h1 style="color: var(--primary);">I Love You, Bubuu!</h1>
+            
+            <div class="gallery">
+                <div class="photo-card"><img src="https://i.ibb.co/v6v1HymQ/Snapchat-905405751.jpg" alt="Memory"></div>
+                <div class="photo-card"><img src="https://i.ibb.co/VYzz3dWT/Snapchat-1659123458.jpg" alt="Memory"></div>
+            </div>
+
+            <div class="message-box">
+                <h2>To My Senaa, ❤️</h2>
+                <p>Happy 1st Valentine’s Day! I promised that this would last for our whole lives, and I meant every word. sena una na enku romba pudikum inta 1 st valentine day nama olluga celebrate panala ana idhu kaparam varu oru oru valentine day nama olluga ona celebrate panalam na promise pandran ona panuvonu LOVE YOU SOOOO MUCH DII KUTTACHII ❤️aprm nama ipo vachi irukura nickename romba nalla iruku nee enoda forever BUBUU🧸 aahh iru mahh una eppoum na miss pana kudathu ummmmmmmmaaaaaaaaaa.</p>
+                <p><strong>I love you forever!</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            document.getElementById('cover-screen').classList.add('hide-up');
+            const content = document.getElementById('letter-container');
+            content.style.display = 'block';
+            setTimeout(() => { content.style.opacity = '1'; }, 100);
+        }
+
+        function moveNo() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function revealAll() {
+            // Start Music
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Music play blocked by browser"));
+
+            // Hide the question box
+            document.getElementById('question-area').style.display = 'none';
+            // Show photos and message
+            document.getElementById('final-reveal').style.display = 'block';
+            // Start heart rain
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            const types = ['❤️', '💖', '💝', '💕', '💗'];
+            heart.innerText = types[Math.floor(Math.random() * types.length)];
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
